@@ -1,7 +1,9 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
-
+void addflashcard(){
+    //just testing
+}
 int main(){
     int choice;
     cout<<"FLASHCARD QUIZ PROGRAM"<<endl;
