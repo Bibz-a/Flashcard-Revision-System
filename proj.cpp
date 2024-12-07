@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 using namespace std;
+
 void addflashcard() {
     string question, answer;
     fstream questionfile;
@@ -29,16 +30,92 @@ void addflashcard() {
     }
 
 }
+void randomquiz(){
+	
+}
+
+bool admintry = 0;
+void adminview(){
+	string adminpass,temp;
+	adminpass = "admin123@";
+	cout<<"Confirm you are admin by entering the password."<<endl;
+	cin>>temp;
+	if(temp == adminpass){
+		cout<<"Welcome Admin!"<<endl;
+		int choice;
+        do {
+            cout << "\nAdmin Menu:" << endl;
+            cout << "1 - List all files" << endl;
+            cout << "2 - Refresh all files" << endl;
+            cout << "3 - Exit Program" << endl;
+            cout << "4 - Exit admin view" << endl;
+            cout << "Enter your choice: ";
+            cin >> choice;
+            cin.ignore();  
+            switch (choice) {
+                case 1:
+                    cout<<"The files currently in this program are:"<<endl;
+                    cout<<"Answers.txt, Questions.txt, Scores.txt"<<endl;
+                    break;
+                case 2: {
+                	// QUESTION FILE
+                    ofstream question;
+                    question.open("Questions.txt",ios::trunc);
+                    if(!question){
+                    	cout<<"Failed to open Questions.txt"<<endl; 	
+					}
+					else{
+						cout<<"Contents of Question.txt deleted."<<endl;
+					}
+					// ANSWER FILE
+					ofstream answers;
+                    answers.open("Answers.txt",ios::trunc);
+                    if(!answers){
+                    	cout<<"Failed to open Answers.txt"<<endl; 	
+					}
+					else{
+						cout<<"Contents of Answers.txt deleted."<<endl;
+					}
+					// SCORE FILE
+					ofstream Score;
+                    Score.open("Scores.txt",ios::trunc);
+                    if(!Score){
+                    	cout<<"Failed to open Scores.txt"<<endl; 	
+					}
+					else{
+						cout<<"Contents of Scores.txt deleted."<<endl;
+					}
+                    break;
+                }
+                case 3:{
+                	cout<<"Exiting the program."<<endl;
+                	exit(0);
+					break;
+				}
+                case 4:
+                    cout << "Exiting admin view." << endl;
+                    break;
+                default:
+                    cout << "Invalid choice. Please try again." << endl;
+            }
+        } while (choice != 4);
+
+	}
+	else{
+		cout<<"Password incorrect, admin access blocked."<<endl;
+		admintry = 1;
+	}
+}
+
 int main(){
     int choice;
-    cout<<"FLASHCARD QUIZ PROGRAM"<<endl;
-     cout << "FLASHCARD QUIZ PROGRAM" << endl;
+    cout << "FLASHCARD QUIZ PROGRAM" << endl;
     cout << "Which action do you want to perform?" << endl;
     cout << "1 - ADD A FLASHCARD" << endl;
     cout << "2 - DELETE A FLASHCARD" << endl;
     cout << "3 - RANDOM QUIZ" << endl;
     cout << "4 - SEARCH BY KEYWORD" << endl;
-    cout << "5 - VIEW SCORES" << endl;
+    cout << "5 - VIEW SCORES AND ANALYSIS" << endl;
     cout << "6 - VIEW ALL CARDS" << endl;
     cout << "7 - ADMIN VIEW" << endl;
     cout << "8 - EXIT" << endl;
@@ -67,7 +144,12 @@ int main(){
                 cout << "View all cards functionality is not implemented yet." << endl;
                 break;
             case 7:
-                cout << "Admin view functionality is not implemented yet." << endl;
+            	if(admintry==0){
+            		adminview();
+				}
+                else{
+                	cout<<"Admin access has been blocked, as you entered the wrong password once."<<endl;
+				}
                 break;
             case 8:
                 cout << "Exiting program. Goodbye!" << endl;
