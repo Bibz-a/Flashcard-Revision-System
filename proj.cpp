@@ -33,6 +33,22 @@ void addflashcard() {
 void randomquiz(){
 	
 }
+void viewflashcards()
+{
+	string questions,answers;
+	int flashcardnum=1;
+	ifstream question("Question.txt");
+	ifstream answer("Answers.txt");
+   while(getline(question,questions) && getline(answer,answers))
+   {
+   	cout<<"Flash Card number: "<<flashcardnum<<endl;
+   	cout<<questions<<endl;
+   	cout<<answers<<endl;
+   	flashcardnum++;
+   }
+
+	
+}
 
 bool admintry = 0;
 void adminview(){
@@ -141,7 +157,9 @@ int main(){
                 cout << "View scores functionality is not implemented yet." << endl;
                 break;
             case 6:
-                cout << "View all cards functionality is not implemented yet." << endl;
+            	
+                cout << "All flashcards:" << endl;
+                viewflashcards();
                 break;
             case 7:
             	if(admintry==0){
