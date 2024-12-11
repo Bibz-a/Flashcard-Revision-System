@@ -37,18 +37,27 @@ void viewflashcards()
 {
 	string questions,answers;
 	int flashcardnum=1;
-	ifstream question("Question.txt");
-	ifstream answer("Answers.txt");
+	fstream question,answer;
+	question.open("Questions.txt",ios::in);
+	answer.open("Answers.txt",ios::in);
+	if(!(question.is_open()) || !(answer.is_open()))
+	{
+		cout<<"Error opening files!"<<endl;
+	}
+	else
+	{
+	cout<<"All flashcards:"<<endl;
    while(getline(question,questions) && getline(answer,answers))
    {
    	cout<<"Flash Card number: "<<flashcardnum<<endl;
    	cout<<questions<<endl;
    	cout<<answers<<endl;
    	flashcardnum++;
+   	cout<<"---------------"<<endl;
    }
-
-	
 }
+}
+
 
 bool admintry = 0;
 void adminview(){
@@ -158,7 +167,6 @@ int main(){
                 break;
             case 6:
             	
-                cout << "All flashcards:" << endl;
                 viewflashcards();
                 break;
             case 7:
