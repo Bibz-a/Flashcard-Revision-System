@@ -55,9 +55,33 @@ void viewflashcards()
    	flashcardnum++;
    	cout<<"---------------"<<endl;
    }
+   }
 }
+void searchbykeyword()
+{
+	string keyword;
+	cout<<"Enter the keyword you want to search:"<<endl;
+	getline(cin,keyword);
+	string line1,line2;
+	ifstream questionfile("Questions.txt");
+	ifstream answerFile("Answers.txt");
+	if (!questionfile.is_open() || !answerFile.is_open()) 
+	{
+        cout << "Unable to open files!" << endl;
+        return;
+		}
+	
+	while(getline(questionfile,line1)&&getline(answerFile,line2))
+	{
+		if(line1.find(keyword)!=string::npos || line2.find(keyword)!=string::npos)
+		{
+			cout<<"Keyword found!"<<endl;
+			cout<<"Question: "<<line1<<endl;
+			cout<<"Answer:"<<line2<<endl;
+		}
+		
+	}
 }
-
 
 bool admintry = 0;
 void adminview(){
@@ -160,7 +184,7 @@ int main(){
                 cout << "Random quiz functionality is not implemented yet." << endl;
                 break;
             case 4:
-                cout << "Search by keyword functionality is not implemented yet." << endl;
+                searchbykeyword();
                 break;
             case 5:
                 cout << "View scores functionality is not implemented yet." << endl;
