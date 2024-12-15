@@ -1,7 +1,18 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 using namespace std;
+string toLowerCase(const string &str) {
+    string lowerStr = str;
+    transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(), ::tolower);
+    return lowerStr;
+}
+
+void trimInPlace(string &str) {
+    str.erase(0, str.find_first_not_of(" \t\r\n"));
+    str.erase(str.find_last_not_of(" \t\r\n") + 1);
+}
 
 void addflashcard() {
     string question, answer;
@@ -83,6 +94,76 @@ void searchbykeyword()
 	}
 }
 
+void editquestion() {
+    string fquestion;
+    cout << "What is the Question you want to edit?" << endl;
+    getline(cin, fquestion);  
+
+   
+    fquestion = toLowerCase(fquestion);
+
+    fstream question;
+    fstream answer;
+    question.open("Questions.txt", ios::in);
+    answer.open("Answers.txt", ios::in);
+
+    if (!question.is_open() || !answer.is_open()) {
+        cout << "One or more files not opening." << endl;
+        return;
+    }
+
+    string questionfile, temp, tempans, ansfile;
+    string newquestion, newanswer;
+    questionfile = "";
+    ansfile = "";
+    bool quesfound = false;
+
+    while (getline(question, temp) && getline(answer, tempans)) {
+        string trimmedTemp = temp;
+        string trimmedFquestion = fquestion;
+
+        
+        trimInPlace(trimmedTemp);
+        trimInPlace(trimmedFquestion);
+
+        
+        if (toLowerCase(trimmedTemp) == trimmedFquestion) {
+            cout << "What is the new Question you wish to write?" << endl;
+            getline(cin, newquestion);
+            cout << "What is the new Answer you wish to write?" << endl;
+            getline(cin, newanswer);
+            temp = newquestion;
+            tempans = newanswer;
+            quesfound = true;
+        }
+        ansfile = ansfile + tempans + "\n";
+        questionfile = questionfile + temp + "\n";
+    }
+
+    question.close();
+    answer.close();
+
+    question.open("Questions.txt", ios::out);
+    answer.open("Answers.txt", ios::out);
+
+    if (!question.is_open() || !answer.is_open()) {
+        cout << "Error reopening files for writing." << endl;
+        return;
+    }
+
+    question << questionfile;
+    answer << ansfile;
+
+    question.close();
+    answer.close();
+
+    if (quesfound) {
+        cout << "Question and Answer updated successfully!" << endl;
+    } else {
+        cout << "Question was not found." << endl;
+    }
+}
+
 bool admintry = 0;
 void adminview(){
 	string adminpass,temp;
@@ -155,7 +236,6 @@ void adminview(){
 		admintry = 1;
 	}
 }
-
 int main(){
     int choice;
     cout << "FLASHCARD QUIZ PROGRAM" << endl;
@@ -167,7 +247,8 @@ int main(){
     cout << "5 - VIEW SCORES AND ANALYSIS" << endl;
     cout << "6 - VIEW ALL CARDS" << endl;
     cout << "7 - ADMIN VIEW" << endl;
-    cout << "8 - EXIT" << endl;
+    cout << "8 - EDIT A QUESTION" << endl;
+    cout << "9 - EXIT" <<endl;
    do {
         cout << "Enter your choice: ";
         cin >> choice;
@@ -178,7 +259,6 @@ int main(){
                 addflashcard();
                 break;
             case 2:
-                cout << "Delete flashcard functionality is not implemented yet." << endl;
                 break;
             case 3:
                 cout << "Random quiz functionality is not implemented yet." << endl;
@@ -201,14 +281,18 @@ int main(){
                 	cout<<"Admin access has been blocked, as you entered the wrong password once."<<endl;
 				}
                 break;
-            case 8:
+            case 8:{
+            	editquestion();
+				break;
+			}
+            case 9:
                 cout << "Exiting program. Goodbye!" << endl;
                 break;
             default:
                 cout << "ERROR: INVALID INPUT. Please try again." << endl;
                 break;
         }
-    } while (choice != 8);
+    } while (choice != 9);
     
     return 0;
 }
