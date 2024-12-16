@@ -126,8 +126,8 @@ void randomquiz(){
         
         trimInPlace(matchans);
         trimInPlace(actualans);
-		cout << "Your answer: '" << toLowerCase(matchans) << "'" << endl;
-		cout << "Correct answer: '" << toLowerCase(actualans) << "'" << endl;
+		//cout << "Your answer: '" << toLowerCase(matchans) << "'" << endl;
+		//cout << "Correct answer: '" << toLowerCase(actualans) << "'" << endl; // these are debug statements ignore!
         if (toLowerCase(actualans) == toLowerCase(matchans)) {
             cout << "\033[32mYOU GOT IT RIGHT!\033[0m" <<endl;  // Green
             score++;
@@ -362,6 +362,7 @@ int main(){
                 addflashcard();
                 break;
             case 2:
+            	
                 break;
             case 3:
                 randomquiz();
