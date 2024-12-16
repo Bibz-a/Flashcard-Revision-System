@@ -140,7 +140,7 @@ void randomquiz(){
 	}
 	cout<<"The score of this session was: "<<score<< " out of : "<<numques<<endl;
 	if(score == numques){
-		cout<<"GREAT JOB! U GOT A PERFECT SCORE!"<<endl;
+		cout<<"\033[35mGREAT JOB! YOU GOT A PERFECT SCORE!!\033[0m\n"<<endl;
 	}
 	scorefile << score << "\n";
 	
