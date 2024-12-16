@@ -44,6 +44,62 @@ void addflashcard() {
 
 }
 
+
+void deleteflashcard() {
+    ifstream questionFile("Questions.txt");
+    ifstream answerFile("Answers.txt");
+
+    if (!questionFile.is_open() || !answerFile.is_open()) {
+        cout << "Unable to open files!" << endl;
+        return;
+    }
+
+    string allQuestions = "", allAnswers = "";
+    string question, answer;
+    string lastQuestion, lastAnswer;
+
+    // Read all lines and store the last question and answer separately
+    while (getline(questionFile, question) && getline(answerFile, answer)) {
+        lastQuestion = question;
+        lastAnswer = answer;
+
+        // Append the current lines to the strings
+        allQuestions += question + "\n";
+        allAnswers += answer + "\n";
+    }
+
+    questionFile.close();
+    answerFile.close();
+
+    // Remove the last question and answer from the strings
+    if (!allQuestions.empty()) {
+        size_t lastPos = allQuestions.rfind(lastQuestion);
+        allQuestions = allQuestions.substr(0, lastPos);
+    }
+    if (!allAnswers.empty()) {
+        size_t lastPos = allAnswers.rfind(lastAnswer);
+        allAnswers = allAnswers.substr(0, lastPos);
+    }
+
+    // Overwrite the files with updated content
+    ofstream questionFileOut("Questions.txt", ios::trunc);
+    ofstream answerFileOut("Answers.txt", ios::trunc);
+
+    if (questionFileOut.is_open() && answerFileOut.is_open()) {
+        questionFileOut << allQuestions;
+        answerFileOut << allAnswers;
+        cout << "Last flashcard deleted successfully." << endl;
+    } else {
+        cout << "Error: Unable to write to files!" << endl;
+    }
+
+    questionFileOut.close();
+    answerFileOut.close();
+}
+
+
+
+
 void randomquiz(){
 	
 	int total= 0;
@@ -362,7 +418,7 @@ int main(){
                 addflashcard();
                 break;
             case 2:
-            	
+            	deleteflashcard();
                 break;
             case 3:
                 randomquiz();
