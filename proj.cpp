@@ -2,6 +2,8 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <cstdlib> 
+#include <ctime> 
 using namespace std;
 string toLowerCase(const string &str) {
     string lowerStr = str;
@@ -41,8 +43,108 @@ void addflashcard() {
     }
 
 }
+
 void randomquiz(){
 	
+	int total= 0;
+	cout<<"How many questions do you need in the quiz session?"<<endl;
+	int numques;
+	cin>>numques;
+	fstream question;
+	question.open("Questions.txt",ios::in);
+	fstream answer;
+	answer.open("Answers.txt",ios::in);
+	fstream scorefile;
+	scorefile.open("Scores.txt",ios::app);
+	int usedindex[numques] = {0};
+	int score = 0;
+	if(!(question.is_open()) || !(answer.is_open()) || !(scorefile.is_open()))
+	{
+		cout<<"Error opening files!"<<endl;
+	}
+	else{
+		string temp;
+		while(getline(question,temp)){
+			total++;
+		}
+		question.clear();          
+		question.seekg(0, ios::beg);  //moving the pointers of getline back to beginning of files :)
+		answer.clear();
+		answer.seekg(0, ios::beg);
+		
+	if(numques>total){
+		int numdiff;
+		numdiff = numques - total;
+		cout<<"There are not enough questions in the file."<<endl;
+		cout<<"Add "<< numdiff<<" more questions or shorten quiz length."<<endl;
+	}
+	
+	else{
+		cout<<"PRESS ENTER TO MOVE TO NEXT QUESION!"<<endl;
+		int randnum;
+		 int count = 0;
+		 srand(time(0));
+		
+		while (count < numques) {
+        
+        question.clear();
+        answer.clear();
+        question.seekg(0, ios::beg);
+        answer.seekg(0, ios::beg);
+
+       	bool usedfound = 0 ;
+       
+        do{
+        	usedfound = 0;
+        	randnum = rand() % total;
+        	for(int i = 0;i<count;i++){
+        		if(usedindex[i]==randnum){
+        			usedfound = 1;
+        			break;
+				}
+			}
+		}while(usedfound);
+		
+        usedindex[count] = randnum;
+        
+        string randomquestion, actualans;
+        
+        
+        for (int i = 0; i <= randnum; i++) {
+            getline(question, randomquestion);
+            getline(answer, actualans);
+        }
+
+        cin.ignore(); 
+        cout << randomquestion << endl;
+
+       
+        string matchans;
+        
+        getline(cin,matchans);
+
+        
+        trimInPlace(matchans);
+        trimInPlace(actualans);
+		cout << "Your answer: '" << toLowerCase(matchans) << "'" << endl;
+		cout << "Correct answer: '" << toLowerCase(actualans) << "'" << endl;
+        if (toLowerCase(actualans) == toLowerCase(matchans)) {
+            cout << "\033[32mYOU GOT IT RIGHT!\033[0m" <<endl;  // Green
+            score++;
+        } else {
+            cout<< "\033[31mOH NO, YOU GOT IT WRONG!\033[0m" <<endl;  // Red
+        }
+
+        count++;
+    }
+	}
+	cout<<"The score of this session was: "<<score<< " out of : "<<numques<<endl;
+	if(score == numques){
+		cout<<"GREAT JOB! U GOT A PERFECT SCORE!"<<endl;
+	}
+	scorefile << score << "\n";
+	
+}
 }
 void viewflashcards()
 {
@@ -167,7 +269,7 @@ void editquestion() {
 bool admintry = 0;
 void adminview(){
 	string adminpass,temp;
-	adminpass = "admin123@";
+	adminpass = "admin@123";
 	cout<<"Confirm you are admin by entering the password."<<endl;
 	cin>>temp;
 	if(temp == adminpass){
@@ -239,6 +341,7 @@ void adminview(){
 int main(){
     int choice;
     cout << "FLASHCARD QUIZ PROGRAM" << endl;
+    cout << "\033[33mIMPORTANT: FLASHCARDS ANSWERS ARE OF ONE WORD ONLY!!\033[0m\n"; // Yellow
     cout << "Which action do you want to perform?" << endl;
     cout << "1 - ADD A FLASHCARD" << endl;
     cout << "2 - DELETE A FLASHCARD" << endl;
@@ -261,7 +364,7 @@ int main(){
             case 2:
                 break;
             case 3:
-                cout << "Random quiz functionality is not implemented yet." << endl;
+                randomquiz();
                 break;
             case 4:
                 searchbykeyword();
