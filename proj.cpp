@@ -5,6 +5,64 @@
 #include <cstdlib> 
 #include <ctime> 
 using namespace std;
+void scoreanalysis( string question,string answer)
+{
+	ofstream wrongquestions("wrongquestions.txt",ios::app);
+    ofstream actualanswers("correctanswers.txt",ios::app);
+    if(wrongquestions.is_open() && actualanswers.is_open())
+    {
+	wrongquestions<<question<<endl;
+	actualanswers<<answer<<endl;
+    }
+    else
+    cout<<"Error opening files"<<endl;
+    wrongquestions.close();
+    actualanswers.close();
+}
+void ViewScoreAnalysis()
+{
+	ifstream wrongquestions("wrongquestions.txt",ios::in);
+	ifstream actualanswers("correctanswers.txt",ios::in);
+	
+	string question,answer;
+	string questions[100];
+	string answers[100];
+	int size=0;
+	int counts[100];
+	
+	while(getline(wrongquestions,question)&&getline(actualanswers,answer))
+	{
+        bool found = false;
+        for (int i=0; i<size; i++) 
+		{
+            if (questions[i] == question)
+			 {
+                counts[i]++;
+                found = true;
+                break;
+            }
+        }
+    
+        if (!found) 
+		{
+            questions[size] = question;
+            answers[size] = answer;
+            counts[size] = 1;
+            size++;
+        }
+	}
+	cout<<"Analysis of your performance"<<endl;
+	for(int j=0;j<size;j++)
+	{
+		cout<<"Question: "<<questions[j]<<endl<<
+		"Correct answer: "<<answers[j]<<endl
+		<< "\033[31m"
+		<<"Number of times wrongly answered : "<<counts[j]
+		<<"\033[0m"<<endl;
+		
+	}
+	
+}
 string toLowerCase(const string &str) {
     string lowerStr = str;
     transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(), ::tolower);
@@ -97,9 +155,6 @@ void deleteflashcard() {
     answerFileOut.close();
 }
 
-
-
-
 void randomquiz(){
 	
 	int total= 0;
@@ -189,6 +244,8 @@ void randomquiz(){
             score++;
         } else {
             cout<< "\033[31mOH NO, YOU GOT IT WRONG!\033[0m" <<endl;  // Red
+            scoreanalysis(randomquestion,actualans);
+            
         }
 
         count++;
@@ -427,7 +484,7 @@ int main(){
                 searchbykeyword();
                 break;
             case 5:
-                cout << "View scores functionality is not implemented yet." << endl;
+                ViewScoreAnalysis();
                 break;
             case 6:
             	
