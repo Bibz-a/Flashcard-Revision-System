@@ -42,7 +42,8 @@ void ViewScoreAnalysis()
                 break;
             }
         }
-    
+        
+        
         if (!found) 
 		{
             questions[size] = question;
@@ -54,11 +55,12 @@ void ViewScoreAnalysis()
 	cout<<"Analysis of your performance"<<endl;
 	for(int j=0;j<size;j++)
 	{
-		cout<<"Question: "<<questions[j]<<endl<<
-		"Correct answer: "<<answers[j]<<endl
+		cout<<"Question: "<<questions[j]<<endl
+		<<"Correct answer: "<<answers[j]<<endl
 		<< "\033[31m"
 		<<"Number of times wrongly answered : "<<counts[j]
-		<<"\033[0m"<<endl;
+		<<"\033[0m"
+		<<endl;
 		
 	}
 	
@@ -291,15 +293,17 @@ void searchbykeyword()
 	string line1,line2;
 	ifstream questionfile("Questions.txt");
 	ifstream answerFile("Answers.txt");
+	keyword = toLowerCase(keyword);
 	if (!questionfile.is_open() || !answerFile.is_open()) 
 	{
         cout << "Unable to open files!" << endl;
         return;
 		}
-	
 	while(getline(questionfile,line1)&&getline(answerFile,line2))
 	{
-		if(line1.find(keyword)!=string::npos || line2.find(keyword)!=string::npos)
+		string newline1=toLowerCase(line1);
+		string newline2=toLowerCase(line2);
+		if(newline1.find(keyword)!=string::npos || newline2.find(keyword)!=string::npos)
 		{
 			cout<<"Keyword found!"<<endl;
 			cout<<"Question: "<<line1<<endl;
@@ -503,11 +507,14 @@ int main(){
 				break;
 			}
             case 9:
-                cout << "Exiting program. Goodbye!" << endl;
-                break;
+                {
+				cout << "Exiting program. Goodbye!" << endl;
+                break;}
             default:
-                cout << "ERROR: INVALID INPUT. Please try again." << endl;
+                {
+				cout << "ERROR: INVALID INPUT. Please try again." << endl;
                 break;
+            }
         }
     } while (choice != 9);
     
