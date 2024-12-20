@@ -118,12 +118,12 @@ void deleteflashcard() {
     string question, answer;
     string lastQuestion, lastAnswer;
 
-    // Read all lines and store the last question and answer separately
+    // store the last question and answer
     while (getline(questionFile, question) && getline(answerFile, answer)) {
         lastQuestion = question;
         lastAnswer = answer;
 
-        // Append the current lines to the strings
+        // append current lines to strings
         allQuestions += question + "\n";
         allAnswers += answer + "\n";
     }
@@ -131,7 +131,7 @@ void deleteflashcard() {
     questionFile.close();
     answerFile.close();
 
-    // Remove the last question and answer from the strings
+    // remove last question and answer from strings
     if (!allQuestions.empty()) {
         size_t lastPos = allQuestions.rfind(lastQuestion);
         allQuestions = allQuestions.substr(0, lastPos);
@@ -141,7 +141,7 @@ void deleteflashcard() {
         allAnswers = allAnswers.substr(0, lastPos);
     }
 
-    // Overwrite the files with updated content
+    // overwrite files and update
     ofstream questionFileOut("Questions.txt", ios::trunc);
     ofstream answerFileOut("Answers.txt", ios::trunc);
 
