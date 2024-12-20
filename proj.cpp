@@ -157,6 +157,43 @@ void deleteflashcard() {
     answerFileOut.close();
 }
 
+void printpattern() {
+    int size = 6; 
+    // Upper part
+    for (int i=size/2; i<=size; i+=2) {
+        // leading spaces
+        for (int j=1; j<size-i; j+=2) {
+            cout << " ";
+        }
+        //first half of heart
+        for (int j=1; j<=i; j++) {
+            cout << "*";
+        }
+        //spaces between two halves
+        for (int j=1; j<=size-i; j++) {
+            cout << " ";
+        }
+        //second half of heart
+        for (int j=1; j<=i; j++) {
+            cout << "*";
+        }
+        cout << endl;
+    }
+
+    // Lower part of heart
+    for (int i=size; i>=1; i--) {
+        // leading spaces
+        for (int j=1; j<=size-i; j++) {
+            cout << " ";
+        }
+        //bottom triangle of heart
+        for (int j=1; j<=(2*i)-1; j++) {
+            cout << "*";
+        }
+        cout << endl;
+    }
+}
+
 void randomquiz(){
 	
 	int total= 0;
@@ -256,11 +293,14 @@ void randomquiz(){
 	cout<<"The score of this session was: "<<score<< " out of : "<<numques<<endl;
 	if(score == numques){
 		cout<<"\033[35mGREAT JOB! YOU GOT A PERFECT SCORE!!\033[0m\n"<<endl;
+		cout<<"\033[35mHERE'S A HEART FOR YOU!!\033[0m\n"<<endl;
+		printpattern();
 	}
 	scorefile << score << "\n";
 	
 }
 }
+
 void viewflashcards()
 {
 	string questions,answers;
