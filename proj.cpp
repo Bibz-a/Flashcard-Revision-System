@@ -194,6 +194,15 @@ void printpattern() {
     }
 }
 
+void accuracycheck(int score, int numques) {
+    if (numques>0) {
+        double accuracy=(double)score/numques*100;
+        cout<<"Your accuracy is: "<<accuracy<<"%"<<endl;
+    } else {
+        cout<<"No questions attempted, so accuracy cannot be calculated."<<endl;
+    }
+}
+
 void randomquiz(){
 	
 	int total= 0;
@@ -290,12 +299,16 @@ void randomquiz(){
         count++;
     }
 	}
+	cout<<endl;
 	cout<<"The score of this session was: "<<score<< " out of : "<<numques<<endl;
 	if(score == numques){
 		cout<<"\033[35mGREAT JOB! YOU GOT A PERFECT SCORE!!\033[0m\n"<<endl;
 		cout<<"\033[35mHERE'S A HEART FOR YOU!!\033[0m\n"<<endl;
 		printpattern();
 	}
+	
+	
+	
 	scorefile << score << "\n";
 	
 }

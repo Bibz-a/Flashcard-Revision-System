@@ -20,3 +20,4 @@ Shakespeare
 Avocado
 Shakespeare
 Yen
+Portuguese
