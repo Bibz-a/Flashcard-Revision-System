@@ -307,7 +307,7 @@ void randomquiz(){
 		printpattern();
 	}
 	
-	
+	accuracycheck(score,numques);
 	
 	scorefile << score << "\n";
 	
