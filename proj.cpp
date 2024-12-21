@@ -132,6 +132,10 @@ void addflashcard() {
     if (questionfile.is_open()) {
         cout << "Enter your question: " << endl;
         getline(cin, question);
+        if(question.empty()){
+        	cout<<"CANT ENTER BLANK LINES!"<<endl;
+        	return;
+		}
         questionfile << question << endl; 
         questionfile.close();
     } else {
@@ -144,6 +148,10 @@ void addflashcard() {
     if (answerFile.is_open()) {
         cout << "Enter the answer: " << endl;
         getline(cin, answer);
+        if(answer.empty()){
+        	cout<<"CANT ENTER BLANK LINES!"<<endl;
+        	return;
+		}
         answerFile << answer << endl; 
         answerFile.close();
     } else {
@@ -398,7 +406,6 @@ void randomquiz(){
  	cout << "\033[34mThe score of this session was: " << score << " out of : " << numques << "\033[0m" << endl;
 	if(score == numques){
 		cout<<"\033[35mGREAT JOB! YOU GOT A PERFECT SCORE!!\033[0m\n"<<endl;
-		cout<<"\033[35mHERE'S A HEART FOR YOU!!\033[0m\n"<<endl;
 		printpattern();
 	}
 	scorefile << score << "\n";
@@ -497,8 +504,16 @@ void editquestion() {
         if (toLowerCase(trimmedTemp) == trimmedFquestion) {
             cout << "What is the new Question you wish to write?" << endl;
             getline(cin, newquestion);
+            if(newquestion.empty()){
+        	cout<<"CANT ENTER BLANK LINES!"<<endl;
+        	return;
+		}
             cout << "What is the new Answer you wish to write?" << endl;
             getline(cin, newanswer);
+            if(newanswer.empty()){
+        	cout<<"CANT ENTER BLANK LINES!"<<endl;
+        	return;
+		}
             temp = newquestion;
             tempans = newanswer;
             quesfound = true;
@@ -552,9 +567,33 @@ void adminview(){
             switch (choice) {
                 case 1:
                     cout<<"The files currently in this program are:"<<endl;
-                    cout<<"Answers.txt, Questions.txt, Scores.txt"<<endl;
+                    cout<<"Answers.txt, Questions.txt, Scores.txt, correctanswers.txt, scorehistory.txt, wrongquestions.txt"<<endl;
                     break;
                 case 2: {
+                	ofstream correctans;
+                	correctans.open("correctanswers.txt", ios::trunc);
+                	if(!correctans){
+                    	cout<<"Failed to open correctanswers.txt"<<endl; 	
+					}
+					else{
+						cout<<"Contents of correctanswers.txt deleted."<<endl;
+					}
+					ofstream wrongquestions;
+                	wrongquestions.open("wrongquestions.txt", ios::trunc);
+                	if(!wrongquestions){
+                    	cout<<"Failed to open wrongquestions.txt"<<endl; 	
+					}
+					else{
+						cout<<"Contents of wrongquestions.txt deleted."<<endl;
+					}
+					ofstream scorehistory;
+                	scorehistory.open("scorehistory.txt", ios::trunc);
+                	if(!wrongquestions){
+                    	cout<<"Failed to open scorehistory.txt"<<endl; 	
+					}
+					else{
+						cout<<"Contents of scorehistory.txt deleted."<<endl;
+					}
                 	// QUESTION FILE
                     ofstream question;
                     question.open("Questions.txt",ios::trunc);
@@ -698,7 +737,7 @@ int main(){
                 break;
 				}
             default:{
-				cout << "ERROR: INVALID INPUT. Please try again." << endl;
+				cout << "\033[31mERROR: INVALID INPUT. Please try again.\033[0m" << endl;
 				cin.clear();
 				cin.ignore();
                 break;
