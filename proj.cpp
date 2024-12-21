@@ -261,7 +261,7 @@ void scorehistory() {
     string line;
     int quizNumber = 1;
 
-    if (scoreHistoryFile.peek() == ifstream::traits_type::eof()) {
+    if (!(scoreHistoryFile >> line)) {
         cout << "No quizzes have been attempted yet." << endl;
     } else {
         cout << "Past Quiz Scores:" << endl;
