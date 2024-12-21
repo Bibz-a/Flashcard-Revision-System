@@ -77,7 +77,10 @@ void ViewScoreAnalysis()
 	string answers[100];
 	int size=0;
 	int counts[100];
-	
+	if(wrongquestions.peek()==EOF||actualanswers.peek()==EOF)
+	{
+		cout<<"Files are Empty!"<<endl;
+	}
 	while(getline(wrongquestions,question)&&getline(actualanswers,answer))
 	{
         bool found = false;
@@ -161,6 +164,10 @@ void deleteflashcard() {
         cout << "Unable to open files!" << endl;
         return;
     }
+    else if(questionFile.peek()==EOF||answerFile.peek()==EOF)
+	{
+		cout<<"Files are Empty!"<<endl;
+	}
 
     string allQuestions = "", allAnswers = "";
     string question, answer;
@@ -292,6 +299,11 @@ void randomquiz(){
 	{
 		cout<<"Error opening files!"<<endl;
 	}
+	if((question.peek()==EOF) || (answer.peek()==EOF) || (scorefile.peek()==EOF) || (scoreHistoryFile.peek()==EOF))
+	{
+		cout<<"EMPTY FILES!"<<endl;
+	}
+
 	else{
 		string temp;
 		while(getline(question,temp)){
@@ -420,6 +432,10 @@ void viewflashcards()
 	{
 		cout<<"Error opening files!"<<endl;
 	}
+	else if(question.peek()==EOF||answer.peek()==EOF)
+	{
+		cout<<"Files are Empty!"<<endl;
+	}
 	else
 	{
 	cout<<"All flashcards:"<<endl;
@@ -447,6 +463,10 @@ void searchbykeyword()
         cout << "Unable to open files!" << endl;
         return;
 		}
+	if((questionfile.peek())==EOF||(answerFile.peek())==EOF)
+	{
+		cout<<"EMPTY FILES"<<endl;
+	}
 	while(getline(questionfile,line1)&&getline(answerFile,line2))
 	{
 		string newline1=toLowerCase(line1);
@@ -478,6 +498,10 @@ void editquestion() {
         cout << "One or more files not opening." << endl;
         return;
     }
+    if((question.peek()==EOF) || (answer.peek()==EOF))
+	{
+		cout<<"EMPTY FILES!"<<endl;
+	}
 
     string questionfile, temp, tempans, ansfile;
     string newquestion, newanswer;
