@@ -257,6 +257,28 @@ float accuracy(string answer, string correctans){
 	return accuracy;
 }
 
+void scorehistory() {
+    ifstream scoreHistoryFile("scorehistory.txt");
+    
+    if (!scoreHistoryFile.is_open()) {
+        cout << "Unable to open scorehistory.txt" << endl;
+        return;
+    }
+
+    string line;
+    int quizNumber = 1;
+
+    if (scoreHistoryFile.peek() == ifstream::traits_type::eof()) {
+        cout << "No quizzes have been attempted yet." << endl;
+    } else {
+        cout << "Past Quiz Scores:" << endl;
+        while (getline(scoreHistoryFile, line)) {
+            cout << "Score for Quiz " << quizNumber << ": " << line << endl;
+            quizNumber++;
+       }
+    }
+}
+    
 void randomquiz(){
 	
 	int total= 0;
@@ -269,9 +291,11 @@ void randomquiz(){
 	answer.open("Answers.txt",ios::in);
 	fstream scorefile;
 	scorefile.open("Scores.txt",ios::app);
+	fstream scoreHistoryFile;
+	scoreHistoryFile.open("ScoreHistory.txt", ios::app);
 	int usedindex[numques] = {0};
 	float score = 0;
-	if(!(question.is_open()) || !(answer.is_open()) || !(scorefile.is_open()))
+	if(!(question.is_open()) || !(answer.is_open()) || !(scorefile.is_open()) || !(scoreHistoryFile.is_open()))
 	{
 		cout<<"Error opening files!"<<endl;
 	}
@@ -385,7 +409,8 @@ void randomquiz(){
 		printpattern();
 	}
 	scorefile << score << "\n";
-	
+	scoreHistoryFile<<score<<"/"<<numques<<endl;
+
 }
 }
 
@@ -640,7 +665,13 @@ int main(){
 				sortFlashcardsAlphabetically();
 				break;
 				}
-            case 10:
+				
+
+                case 10:{
+				scorehistory();
+				break;
+                }
+            case 11:
                 {
 				cout << "Exiting program. Goodbye!" << endl;
                 break;
@@ -652,7 +683,7 @@ int main(){
                 break;
             }
         }
-    } while (choice != 10);
+    } while (choice != 11);
     
     return 0;
 }
