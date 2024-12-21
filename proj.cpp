@@ -5,6 +5,53 @@
 #include <cstdlib> 
 #include <ctime> 
 using namespace std;
+void sortFlashcardsAlphabetically() {
+    string questions[100];
+    string answers[100];
+    int size = 0;
+
+    ifstream questionFile("Questions.txt");
+    ifstream answerFile("Answers.txt");
+
+    if (!questionFile.is_open() || !answerFile.is_open()) {
+        cout << "Error: Unable to open Questions.txt or Answers.txt" << endl;
+        return;
+    }
+
+    while (getline(questionFile, questions[size]) && getline(answerFile, answers[size])) {
+        size++;
+    }
+
+    questionFile.close();
+    answerFile.close();
+
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - i - 1; j++) {
+            if (*(answers+j) > *(answers+j+1)) {
+                swap(answers[j], answers[j + 1]);
+                swap(questions[j], questions[j + 1]);
+            }
+        }
+    }
+
+    ofstream sortedQuestionFile("Questions.txt", ios::trunc);
+    ofstream sortedAnswerFile("Answers.txt", ios::trunc);
+
+    if (!sortedQuestionFile.is_open() || !sortedAnswerFile.is_open()) {
+        cout << "Error: Unable to open Questions.txt or Answers.txt for writing" << endl;
+        return;
+    }
+
+    for (int i = 0; i < size; i++) {
+        sortedQuestionFile << questions[i] << endl;
+        sortedAnswerFile << answers[i] << endl;
+    }
+
+    sortedQuestionFile.close();
+    sortedAnswerFile.close();
+
+    cout << "Flashcards sorted alphabetically by answers successfully!" << endl;
+}
 
 void scoreanalysis( string question,string answer){
 	ofstream wrongquestions("wrongquestions.txt",ios::app);
@@ -549,7 +596,8 @@ int main(){
     cout << "6 - VIEW ALL CARDS" << endl;
     cout << "7 - ADMIN VIEW" << endl;
     cout << "8 - EDIT A QUESTION" << endl;
-    cout << "9 - EXIT" <<endl;
+    cout << "9 - SORT ANSWERS ALPHABETICALLY"<<endl;
+    cout << "10 - EXIT" <<endl;
    do {
         cout << "Enter your choice: ";
         cin >> choice;
@@ -572,7 +620,6 @@ int main(){
                 ViewScoreAnalysis();
                 break;
             case 6:
-            	
                 viewflashcards();
                 break;
             case 7:
@@ -587,10 +634,17 @@ int main(){
             	editquestion();
 				break;
 			}
-            case 9:
+				case 9:
+				{
+			
+				sortFlashcardsAlphabetically();
+				break;
+				}
+            case 10:
                 {
 				cout << "Exiting program. Goodbye!" << endl;
-                break;}
+                break;
+				}
             default:{
 				cout << "ERROR: INVALID INPUT. Please try again." << endl;
 				cin.clear();
@@ -598,7 +652,7 @@ int main(){
                 break;
             }
         }
-    } while (choice != 9);
+    } while (choice != 10);
     
     return 0;
 }
