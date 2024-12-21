@@ -566,6 +566,8 @@ int main(){
             default:
                 {
 				cout << "ERROR: INVALID INPUT. Please try again." << endl;
+				cin.clear();
+				cin.ignore();
                 break;
             }
         }
