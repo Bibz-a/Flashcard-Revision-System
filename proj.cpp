@@ -358,7 +358,7 @@ void searchbykeyword()
 		string newline2=toLowerCase(line2);
 		if(newline1.find(keyword)!=string::npos || newline2.find(keyword)!=string::npos)
 		{
-			cout<<"Keyword found!"<<endl;
+			cout<<"\033[32mKeyword found!\033[0m"<<endl;
 			cout<<"Question: "<<line1<<endl;
 			cout<<"Answer:"<<line2<<endl;
 		}
