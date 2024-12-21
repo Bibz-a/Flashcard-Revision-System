@@ -206,39 +206,32 @@ void deleteflashcard() {
 }
 
 void printpattern() {
-    int size = 6; 
-    
+    int size=6; 
     for (int i=size/2; i<=size; i+=2) {
-        
+        cout<<"\t"<<"\t"<<"\t"<<"\t"<<"\t"<<"\t";
         for (int j=1; j<size-i; j+=2) {
             cout << " ";
         }
-        
         for (int j=1; j<=i; j++) {
-           cout << "\033[31m*\033[0m";
-        }
-        
-        for (int j=1; j<=size-i; j++) {
-            cout << " ";
-        }
-        
-        for (int j=1; j<=i; j++) {
-           cout << "\033[31m*\033[0m";
-        }
-        cout << endl;
-    }
-
-    
-    for (int i=size; i>=1; i--) {
-        
-        for (int j=1; j<=size-i; j++) {
-            cout << " ";
-        }
-        
-        for (int j=1; j<=(2*i)-1; j++) {
             cout << "\033[31m*\033[0m";
         }
-        cout << endl;
+        for (int j=1; j<=size-i; j++) {
+            cout << " ";
+        }
+        for (int j=1; j<=i; j++) {
+            cout << "\033[31m*\033[0m";
+        }
+        cout<<endl;
+    }
+    for (int i=size; i>=1; i--) {
+        cout<<"\t"<<"\t"<<"\t"<<"\t"<<"\t"<<"\t";
+        for (int j=1; j<=size-i; j++) {
+            cout << " ";
+    }
+        for (int j=1; j<=(2*i)-1; j++) {
+            cout<<"\033[31m*\033[0m";
+        }
+        cout<<endl;
     }
 }
 
