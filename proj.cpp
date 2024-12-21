@@ -207,36 +207,36 @@ void deleteflashcard() {
 
 void printpattern() {
     int size = 6; 
-    // Upper part
+    
     for (int i=size/2; i<=size; i+=2) {
-        // leading spaces
+        
         for (int j=1; j<size-i; j+=2) {
             cout << " ";
         }
-        //first half of heart
+        
         for (int j=1; j<=i; j++) {
-            cout << "*";
+           cout << "\033[31m*\033[0m";
         }
-        //spaces between two halves
+        
         for (int j=1; j<=size-i; j++) {
             cout << " ";
         }
-        //second half of heart
+        
         for (int j=1; j<=i; j++) {
-            cout << "*";
+           cout << "\033[31m*\033[0m";
         }
         cout << endl;
     }
 
-    // Lower part of heart
+    
     for (int i=size; i>=1; i--) {
-        // leading spaces
+        
         for (int j=1; j<=size-i; j++) {
             cout << " ";
         }
-        //bottom triangle of heart
+        
         for (int j=1; j<=(2*i)-1; j++) {
-            cout << "*";
+            cout << "\033[31m*\033[0m";
         }
         cout << endl;
     }
@@ -606,24 +606,31 @@ void adminview(){
 	else{
 		cout<<"Password incorrect, admin access blocked."<<endl;
 		admintry = 1;
+		cin.ignore();
 	}
+}
+void printoption(){
+	cout<<"\t"<<"\t"<<"\t"<<"\t"<<"\t"<<"\t"<<"\t"<<"\t";
+	cout << "FLASHCARD QUIZ PROGRAM" << endl;
+	cout<<"\t"<<"\t"<<"\t"<<"\t"<<"\t"<<"\t";
+    cout << "\033[33mIMPORTANT: FLASHCARDS ANSWERS ARE OF ONE WORD ONLY!!\033[0m\n"; // Yellow
+    cout << "Which action do you want to perform?" << endl;
+    cout << "01 - ADD A FLASHCARD" << endl;
+    cout << "02 - DELETE A FLASHCARD" << endl;
+    cout << "03 - RANDOM QUIZ" << endl;
+    cout << "04 - SEARCH BY KEYWORD" << endl;
+    cout << "05 - VIEW SCORES AND ANALYSIS" << endl;
+    cout << "06 - VIEW ALL CARDS" << endl;
+    cout << "07 - ADMIN VIEW" << endl;
+    cout << "08 - EDIT A QUESTION" << endl;
+    cout << "09 - SORT ANSWERS ALPHABETICALLY"<<endl;
+    cout << "10 - VIEW SCORE HISTORY" <<endl;
+    cout << "11 - EXIT THE PROGRAM"<<endl;
 }
 int main(){
     int choice;
-    cout << "FLASHCARD QUIZ PROGRAM" << endl;
-    cout << "\033[33mIMPORTANT: FLASHCARDS ANSWERS ARE OF ONE WORD ONLY!!\033[0m\n"; // Yellow
-    cout << "Which action do you want to perform?" << endl;
-    cout << "1 - ADD A FLASHCARD" << endl;
-    cout << "2 - DELETE A FLASHCARD" << endl;
-    cout << "3 - RANDOM QUIZ" << endl;
-    cout << "4 - SEARCH BY KEYWORD" << endl;
-    cout << "5 - VIEW SCORES AND ANALYSIS" << endl;
-    cout << "6 - VIEW ALL CARDS" << endl;
-    cout << "7 - ADMIN VIEW" << endl;
-    cout << "8 - EDIT A QUESTION" << endl;
-    cout << "9 - SORT ANSWERS ALPHABETICALLY"<<endl;
-    cout << "10 - EXIT" <<endl;
    do {
+   		printoption();
         cout << "Enter your choice: ";
         cin >> choice;
         cin.ignore();
@@ -631,55 +638,75 @@ int main(){
         switch (choice) {
             case 1:
                 addflashcard();
+                 cin.ignore();
+                system("cls");
                 break;
             case 2:
             	deleteflashcard();
+            	cin.ignore();
+                system("cls");
                 break;
             case 3:
                 randomquiz();
+                cin.ignore();
+                system("cls");
+                
                 break;
             case 4:
                 searchbykeyword();
+                cin.ignore();
+                system("cls");
                 break;
             case 5:
                 ViewScoreAnalysis();
+                cin.ignore();
+                system("cls");
                 break;
             case 6:
                 viewflashcards();
+                 cin.ignore();
+                system("cls");
                 break;
             case 7:
             	if(admintry==0){
             		adminview();
+            		cin.ignore();
+                	system("cls");
 				}
                 else{
-                	cout<<"Admin access has been blocked, as you entered the wrong password once."<<endl;
+                	 cout<<"Admin access has been blocked, as you entered the wrong password once."<<endl;
+                	 cin.ignore();
+                	 system("cls");
 				}
                 break;
             case 8:{
             	editquestion();
+            	 cin.ignore();
+                system("cls");
 				break;
 			}
-				case 9:
-				{
-			
+				case 9:{
 				sortFlashcardsAlphabetically();
+				 cin.ignore();
+                system("cls");
 				break;
 				}
-				
-
                 case 10:{
 				scorehistory();
+				 cin.ignore();
+                system("cls");
 				break;
                 }
             case 11:
                 {
+                cout<<"\t"<<"\t"<<"\t"<<"\t"<<"\t"<<"\t";
 				cout << "Exiting program. Goodbye!" << endl;
                 break;
 				}
             default:{
 				cout << "ERROR: INVALID INPUT. Please try again." << endl;
-				cin.clear();
 				cin.ignore();
+                system("cls");
                 break;
             }
         }
