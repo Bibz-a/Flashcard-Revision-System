@@ -5,8 +5,8 @@
 #include <cstdlib> 
 #include <ctime> 
 using namespace std;
-void scoreanalysis( string question,string answer)
-{
+
+void scoreanalysis( string question,string answer){
 	ofstream wrongquestions("wrongquestions.txt",ios::app);
     ofstream actualanswers("correctanswers.txt",ios::app);
     if(wrongquestions.is_open() && actualanswers.is_open())
@@ -19,6 +19,7 @@ void scoreanalysis( string question,string answer)
     wrongquestions.close();
     actualanswers.close();
 }
+
 void ViewScoreAnalysis()
 {
 	ifstream wrongquestions("wrongquestions.txt",ios::in);
@@ -194,13 +195,19 @@ void printpattern() {
     }
 }
 
-void accuracycheck(int score, int numques) {
-    if (numques>0) {
-        double accuracy=(double)score/numques*100;
-        cout<<"Your accuracy is: "<<accuracy<<"%"<<endl;
-    } else {
-        cout<<"No questions attempted, so accuracy cannot be calculated."<<endl;
-    }
+float accuracy(string answer, string correctans){
+	float total = answer.length();
+	int correct = 0;
+	int count = 0;
+	while(answer[count]){
+		if(answer[count] == correctans[count]){
+			correct++;
+		}
+		count++;
+	}
+	float accuracy = 0;
+	accuracy = (correct/total) * 100;
+	return accuracy;
 }
 
 void randomquiz(){
@@ -216,7 +223,7 @@ void randomquiz(){
 	fstream scorefile;
 	scorefile.open("Scores.txt",ios::app);
 	int usedindex[numques] = {0};
-	int score = 0;
+	float score = 0;
 	if(!(question.is_open()) || !(answer.is_open()) || !(scorefile.is_open()))
 	{
 		cout<<"Error opening files!"<<endl;
@@ -239,10 +246,11 @@ void randomquiz(){
 	}
 	
 	else{
-		cout<<"PRESS ENTER TO MOVE TO NEXT QUESION!"<<endl;
+		cout<<"\t"<<"\t"<<"\t"<<"\t"<<"\t"<<"\t";
+		cout << "\033[33mPRESS ENTER TO MOVE TO THE NEXT QUESTION!\033[0m" << endl;
 		int randnum;
-		 int count = 0;
-		 srand(time(0));
+		int count = 0;
+		srand(time(0));
 		
 		while (count < numques) {
         
@@ -287,28 +295,48 @@ void randomquiz(){
         trimInPlace(actualans);
 		//cout << "Your answer: '" << toLowerCase(matchans) << "'" << endl;
 		//cout << "Correct answer: '" << toLowerCase(actualans) << "'" << endl; // these are debug statements ignore!
-        if (toLowerCase(actualans) == toLowerCase(matchans)) {
-            cout << "\033[32mYOU GOT IT RIGHT!\033[0m" <<endl;  // Green
+		float percentacc = 0;
+		
+		if(matchans.length() == actualans.length()){
+			percentacc =accuracy(toLowerCase(matchans),toLowerCase(actualans));
+			if(percentacc==100){
+			cout << "\033[32mYOU GOT IT RIGHT!\033[0m" <<endl;  // Green
             score++;
-        } else {
-            cout<< "\033[31mOH NO, YOU GOT IT WRONG!\033[0m" <<endl;  // Red
-            scoreanalysis(randomquestion,actualans);
-            
-        }
+			}
+			else if(percentacc >= 80){
+			cout << "\033[33mYOU MADE SOME MINOR MISTAKES!\033[0m" << endl;
+				score = score + 0.7;
+			}
+			else if(percentacc>=50){
+			cout << "\033[33mYOUR ANSWER WAS HALF OR PARTIALLY CORRECT!\033[0m" << endl;
+				score = score + 0.5;
+			}
+			else{
+			cout<< "\033[31mOH NO, YOU GOT IT TOO MUCH WRONG!\033[0m" <<endl; 
+			}
+		}
+        else {
+        	if(toLowerCase(matchans) == toLowerCase(actualans)){
+        		cout << "\033[32mYOU GOT IT RIGHT!\033[0m" <<endl;  // Green
+            	score++;
+			}
+			else{
+				 cout<< "\033[31mOH NO, YOU GOT IT WRONG!\033[0m" <<endl;  // Red
+            	 scoreanalysis(randomquestion,actualans);
+			}
+           }
 
         count++;
     }
 	}
 	cout<<endl;
-	cout<<"The score of this session was: "<<score<< " out of : "<<numques<<endl;
+	cout<<"\t"<<"\t"<<"\t"<<"\t"<<"\t"<<"\t";
+ 	cout << "\033[34mThe score of this session was: " << score << " out of : " << numques << "\033[0m" << endl;
 	if(score == numques){
 		cout<<"\033[35mGREAT JOB! YOU GOT A PERFECT SCORE!!\033[0m\n"<<endl;
 		cout<<"\033[35mHERE'S A HEART FOR YOU!!\033[0m\n"<<endl;
 		printpattern();
 	}
-	
-	accuracycheck(score,numques);
-	
 	scorefile << score << "\n";
 	
 }
@@ -563,8 +591,7 @@ int main(){
                 {
 				cout << "Exiting program. Goodbye!" << endl;
                 break;}
-            default:
-                {
+            default:{
 				cout << "ERROR: INVALID INPUT. Please try again." << endl;
                 break;
             }
