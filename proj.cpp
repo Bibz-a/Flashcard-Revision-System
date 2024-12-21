@@ -77,7 +77,10 @@ void ViewScoreAnalysis()
 	string answers[100];
 	int size=0;
 	int counts[100];
-	
+	if(wrongquestions.peek()==EOF||actualanswers.peek()==EOF)
+	{
+		cout<<"Files are Empty!"<<endl;
+	}
 	while(getline(wrongquestions,question)&&getline(actualanswers,answer))
 	{
         bool found = false;
@@ -169,17 +172,19 @@ void deleteflashcard() {
         cout << "Unable to open files!" << endl;
         return;
     }
+    else if(questionFile.peek()==EOF||answerFile.peek()==EOF)
+	{
+		cout<<"Files are Empty!"<<endl;
+	}
 
     string allQuestions = "", allAnswers = "";
     string question, answer;
     string lastQuestion, lastAnswer;
 
-    // store the last question and answer
     while (getline(questionFile, question) && getline(answerFile, answer)) {
         lastQuestion = question;
         lastAnswer = answer;
 
-        // append current lines to strings
         allQuestions += question + "\n";
         allAnswers += answer + "\n";
     }
@@ -187,17 +192,13 @@ void deleteflashcard() {
     questionFile.close();
     answerFile.close();
 
-    // remove last question and answer from strings
     if (!allQuestions.empty()) {
-        size_t lastPos = allQuestions.rfind(lastQuestion);
-        allQuestions = allQuestions.substr(0, lastPos);
+        allQuestions.erase(allQuestions.size() - lastQuestion.size() - 1);
     }
     if (!allAnswers.empty()) {
-        size_t lastPos = allAnswers.rfind(lastAnswer);
-        allAnswers = allAnswers.substr(0, lastPos);
+        allAnswers.erase(allAnswers.size() - lastAnswer.size() - 1);
     }
-
-    // overwrite files and update
+    
     ofstream questionFileOut("Questions.txt", ios::trunc);
     ofstream answerFileOut("Answers.txt", ios::trunc);
 
@@ -269,7 +270,7 @@ void scorehistory() {
     string line;
     int quizNumber = 1;
 
-    if (scoreHistoryFile.peek() == ifstream::traits_type::eof()) {
+    if (!(scoreHistoryFile >> line)) {
         cout << "No quizzes have been attempted yet." << endl;
     } else {
         cout << "Past Quiz Scores:" << endl;
@@ -300,6 +301,11 @@ void randomquiz(){
 	{
 		cout<<"Error opening files!"<<endl;
 	}
+	if((question.peek()==EOF) || (answer.peek()==EOF) || (scorefile.peek()==EOF) || (scoreHistoryFile.peek()==EOF))
+	{
+		cout<<"EMPTY FILES!"<<endl;
+	}
+
 	else{
 		string temp;
 		while(getline(question,temp)){
@@ -427,6 +433,10 @@ void viewflashcards()
 	{
 		cout<<"Error opening files!"<<endl;
 	}
+	else if(question.peek()==EOF||answer.peek()==EOF)
+	{
+		cout<<"Files are Empty!"<<endl;
+	}
 	else
 	{
 	cout<<"All flashcards:"<<endl;
@@ -454,6 +464,10 @@ void searchbykeyword()
         cout << "Unable to open files!" << endl;
         return;
 		}
+	if((questionfile.peek())==EOF||(answerFile.peek())==EOF)
+	{
+		cout<<"EMPTY FILES"<<endl;
+	}
 	while(getline(questionfile,line1)&&getline(answerFile,line2))
 	{
 		string newline1=toLowerCase(line1);
@@ -485,6 +499,10 @@ void editquestion() {
         cout << "One or more files not opening." << endl;
         return;
     }
+    if((question.peek()==EOF) || (answer.peek()==EOF))
+	{
+		cout<<"EMPTY FILES!"<<endl;
+	}
 
     string questionfile, temp, tempans, ansfile;
     string newquestion, newanswer;
