@@ -314,6 +314,7 @@ void randomquiz(){
 		numdiff = numques - total;
 		cout<<"There are not enough questions in the file."<<endl;
 		cout<<"Add "<< numdiff<<" more questions or shorten quiz length."<<endl;
+		cin.ignore();
 	}
 	
 	else{
@@ -399,8 +400,7 @@ void randomquiz(){
 
         count++;
     }
-	}
-	cout<<endl;
+    cout<<endl;
 	cout<<"\t"<<"\t"<<"\t"<<"\t"<<"\t"<<"\t";
  	cout << "\033[34mThe score of this session was: " << score << " out of : " << numques << "\033[0m" << endl;
 	if(score == numques){
@@ -410,6 +410,8 @@ void randomquiz(){
 	}
 	scorefile << score << "\n";
 	scoreHistoryFile<<score<<"/"<<numques<<endl;
+	}
+	
 
 }
 }
@@ -650,7 +652,6 @@ int main(){
                 randomquiz();
                 cin.ignore();
                 system("cls");
-                
                 break;
             case 4:
                 searchbykeyword();
@@ -705,8 +706,8 @@ int main(){
 				}
             default:{
 				cout << "ERROR: INVALID INPUT. Please try again." << endl;
+				cin.clear();
 				cin.ignore();
-                system("cls");
                 break;
             }
         }
