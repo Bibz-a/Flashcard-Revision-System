@@ -173,12 +173,10 @@ void deleteflashcard() {
     string question, answer;
     string lastQuestion, lastAnswer;
 
-    // store the last question and answer
     while (getline(questionFile, question) && getline(answerFile, answer)) {
         lastQuestion = question;
         lastAnswer = answer;
 
-        // append current lines to strings
         allQuestions += question + "\n";
         allAnswers += answer + "\n";
     }
@@ -186,17 +184,13 @@ void deleteflashcard() {
     questionFile.close();
     answerFile.close();
 
-    // remove last question and answer from strings
     if (!allQuestions.empty()) {
-        size_t lastPos = allQuestions.rfind(lastQuestion);
-        allQuestions = allQuestions.substr(0, lastPos);
+        allQuestions.erase(allQuestions.size() - lastQuestion.size() - 1);
     }
     if (!allAnswers.empty()) {
-        size_t lastPos = allAnswers.rfind(lastAnswer);
-        allAnswers = allAnswers.substr(0, lastPos);
+        allAnswers.erase(allAnswers.size() - lastAnswer.size() - 1);
     }
-
-    // overwrite files and update
+    
     ofstream questionFileOut("Questions.txt", ios::trunc);
     ofstream answerFileOut("Answers.txt", ios::trunc);
 
@@ -268,7 +262,7 @@ void scorehistory() {
     string line;
     int quizNumber = 1;
 
-    if (scoreHistoryFile.peek() == ifstream::traits_type::eof()) {
+    if (!(scoreHistoryFile >> line)) {
         cout << "No quizzes have been attempted yet." << endl;
     } else {
         cout << "Past Quiz Scores:" << endl;
