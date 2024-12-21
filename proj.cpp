@@ -548,7 +548,7 @@ void adminview(){
         do {
             cout << "\nAdmin Menu:" << endl;
             cout << "1 - List all files" << endl;
-            cout << "2 - Refresh all files" << endl;
+            cout << "2 - Clear all files" << endl;
             cout << "3 - Exit Program" << endl;
             cout << "4 - Exit admin view" << endl;
             cout << "Enter your choice: ";
