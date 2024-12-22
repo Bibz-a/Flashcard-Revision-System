@@ -21,7 +21,8 @@ void sortFlashcardsAlphabetically() {
 	{
 		cout<<"No Answers to sort!"<<endl;
 	}
-    while (getline(questionFile, questions[size]) && getline(answerFile, answers[size])) {
+	else{
+		while (getline(questionFile, questions[size]) && getline(answerFile, answers[size])) {
         size++;
     }
 
@@ -54,6 +55,8 @@ void sortFlashcardsAlphabetically() {
     sortedAnswerFile.close();
 
     cout << "Flashcards sorted alphabetically by answers successfully!" << endl;
+	}
+    
 }
 
 void scoreanalysis( string question,string answer){
@@ -84,7 +87,8 @@ void ViewScoreAnalysis()
 	{
 		cout<<"Files are Empty!"<<endl;
 	}
-	while(getline(wrongquestions,question)&&getline(actualanswers,answer))
+	else{
+		while(getline(wrongquestions,question)&&getline(actualanswers,answer))
 	{
         bool found = false;
         for (int i=0; i<size; i++) 
@@ -117,6 +121,8 @@ void ViewScoreAnalysis()
 		<<endl;
 		
 	}
+	}
+	
 	
 }
 string toLowerCase(const string &str) {
@@ -178,9 +184,10 @@ void deleteflashcard() {
     else if(questionFile.peek()==EOF||answerFile.peek()==EOF)
 	{
 		cout<<"Files are Empty!"<<endl;
+		cin.ignore();
 	}
-
-    string allQuestions = "", allAnswers = "";
+	else{
+	string allQuestions = "", allAnswers = "";
     string question, answer;
     string lastQuestion, lastAnswer;
 
@@ -214,7 +221,9 @@ void deleteflashcard() {
     }
 
     questionFileOut.close();
-    answerFileOut.close();
+    answerFileOut.close();	
+	}
+    
 }
 
 void printpattern() {
@@ -272,15 +281,17 @@ void scorehistory() {
 
     string line;
     int quizNumber = 1;
+	bool hasScores = false; 
 
-    if (!(scoreHistoryFile >> line)) {
+    cout << "Past Quiz Scores:" << endl;
+    while (getline(scoreHistoryFile, line)) {
+        hasScores = true;
+        cout << "Score for Quiz " << quizNumber << ": " << line << endl;
+        quizNumber++;
+    }
+
+    if (!hasScores) {
         cout << "No quizzes have been attempted yet." << endl;
-    } else {
-        cout << "Past Quiz Scores:" << endl;
-        while (getline(scoreHistoryFile, line)) {
-            cout << "Score for Quiz " << quizNumber << ": " << line << endl;
-            quizNumber++;
-       }
     }
 }
     
@@ -307,6 +318,7 @@ void randomquiz(){
 	if((question.peek()==EOF) || (answer.peek()==EOF))
 	{
 		cout<<"EMPTY FILES!"<<endl;
+		cin.ignore();
 	}
 
 	else{
@@ -505,9 +517,10 @@ void editquestion() {
     if((question.peek()==EOF) || (answer.peek()==EOF))
 	{
 		cout<<"EMPTY FILES!"<<endl;
+		cin.ignore();
 	}
-
-    string questionfile, temp, tempans, ansfile;
+	else{
+		string questionfile, temp, tempans, ansfile;
     string newquestion, newanswer;
     questionfile = "";
     ansfile = "";
@@ -527,12 +540,14 @@ void editquestion() {
             getline(cin, newquestion);
             if(newquestion.empty()){
         	cout<<"CANT ENTER BLANK LINES!"<<endl;
+        	cin.ignore();
         	return;
 		}
             cout << "What is the new Answer you wish to write?" << endl;
             getline(cin, newanswer);
             if(newanswer.empty()){
         	cout<<"CANT ENTER BLANK LINES!"<<endl;
+        	cin.ignore();
         	return;
 		}
             temp = newquestion;
@@ -565,6 +580,8 @@ void editquestion() {
     } else {
         cout << "Question was not found." << endl;
     }
+	}
+    
 }
 
 bool admintry = 0;
