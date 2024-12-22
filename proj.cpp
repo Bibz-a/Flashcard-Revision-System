@@ -17,7 +17,10 @@ void sortFlashcardsAlphabetically() {
         cout << "Error: Unable to open Questions.txt or Answers.txt" << endl;
         return;
     }
-
+    if(questionFile.peek()==EOF||answerFile.peek()==EOF)
+	{
+		cout<<"No Answers to sort!"<<endl;
+	}
     while (getline(questionFile, questions[size]) && getline(answerFile, answers[size])) {
         size++;
     }
@@ -301,7 +304,7 @@ void randomquiz(){
 	{
 		cout<<"Error opening files!"<<endl;
 	}
-	if((question.peek()==EOF) || (answer.peek()==EOF) || (scorefile.peek()==EOF) || (scoreHistoryFile.peek()==EOF))
+	if((question.peek()==EOF) || (answer.peek()==EOF))
 	{
 		cout<<"EMPTY FILES!"<<endl;
 	}
